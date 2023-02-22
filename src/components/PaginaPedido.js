@@ -42,8 +42,8 @@ const MensagenCadastradoSucesso = () => {
 
 
 
-function PaginaPedido(props) {
-  const { window } = props;
+function PaginaPedido() {
+  
 
   const [Pedidos, setpedidos] = useState([]);
   /* linhas maxima na coluna  */
@@ -73,7 +73,19 @@ function PaginaPedido(props) {
    ;
 
   }, []);
+  const gerarPdfPedido =  async (id)  => {
 
+    console.log(id,"id do pedido")
+   
+    let result = await fetch(`http://localhost:8080/api/pdf/pedido/${id}` );
+    
+
+     if(result.status === 200){
+      console.log("oi 1")
+      window.open(`http://localhost:8080/api/pdf/pedido/${id}` , '_blank');
+      console.log("oi 2")
+     }
+    };
 
 
   /* fazendo uma requisição get  */
@@ -89,6 +101,11 @@ function PaginaPedido(props) {
     
 
   };
+
+
+   
+
+  
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: theme.palette.common.black,
@@ -228,7 +245,7 @@ function PaginaPedido(props) {
                   <StyledTableCell align="center"><Button variant="text" size="small" style={{ color: '#F2CF1D' }} endIcon={<DeleteForeverIcon />}>
                     Deletar
                   </Button></StyledTableCell>
-                  <StyledTableCell align="center"><Button variant="text" size="small" style={{ color: '#F2CF1D' }} endIcon={<DescriptionIcon />}>
+                  <StyledTableCell align="center"><Button variant="text" size="small" onClick={() => gerarPdfPedido(id)} style={{ color: '#F2CF1D' }} endIcon={<DescriptionIcon />}>
                     Gerar PDF
                   </Button>
                   </StyledTableCell>
